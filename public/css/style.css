@@ -1,0 +1,19 @@
+/* Variables */
+/* Device Breakpoints px - < 576 < 768 < 992 < 1200 */
+/* mixins */
+body {
+  padding-top: 3.5rem;
+}
+
+@media (min-width: 768px) and (min-height: 576px) {
+  .nav-item {
+    padding-left: 1rem;
+  }
+}
+
+@media (min-width: 992px) and (min-height: 576px) {
+  .nav-item {
+    padding-left: 2rem;
+  }
+}
+/*# sourceMappingURL=style.css.map */
