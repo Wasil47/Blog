@@ -1,0 +1,32 @@
+<%- include('partials/header') -%> 
+
+<main role="main">
+
+  <div class="container">
+    <h1 class="display-3"><%= postCategory %></h1>
+    <div class="row">
+      <% for(let i=0; i < catArr.length; i++) { %>
+      <div class="col-md-12">
+        <h2><%= catArr[i].title %></h2>
+        <p>
+          <% if (catArr[i].content.length > 300) { %>
+            <%= catArr[i].content.substring(0,300) + " ..." %>
+          <% } else {%>
+            <%= catArr[i].content %>
+          <% } %>
+        </p>
+        <p><a 
+          class="btn btn-secondary" 
+          href="/posts/<%= catArr[i].title %>" 
+          role="button">Show post &raquo;</a></p>
+      </div>
+      <% } %>
+    </div>
+    <p><a 
+      class="btn btn-primary btn-lg" 
+      href="/" 
+      role="button">Back to home page &raquo;</a></p>
+  </div>
+</main>
+
+<%- include('partials/footer') -%> 

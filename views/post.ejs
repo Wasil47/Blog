@@ -1,0 +1,24 @@
+<%- include('partials/header') -%> 
+
+<main role="main">
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-4"><%= postTitle %></h1>
+      <p><%= postContent %></p>
+
+      <p><a 
+        class="btn btn-dark btn-lg" 
+        href="/category/<%= postCategory %>" 
+        role="button">Back to <%= postCategory %> category &raquo;</a></p>
+      <p><a 
+        class="btn btn-primary btn-lg" 
+        href="/" 
+        role="button">Back to home page &raquo;</a></p>
+    </div>
+  </div>
+
+</main>
+
+
+<%- include('partials/footer') -%> 

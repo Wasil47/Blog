@@ -35,6 +35,10 @@ $break-xlarge: 1200px;
 body {
   padding-top: 3.5rem;
 }
+blockquote {
+  font-style: italic;
+  text-align: right;
+}
 .nav-item {
   @include respond-to(medium) {
     padding-left: 1rem;
@@ -42,4 +46,7 @@ body {
   @include respond-to(large) {
     padding-left: 2rem;
   } 
+}
+.row {
+  padding-top: 1rem;
 }

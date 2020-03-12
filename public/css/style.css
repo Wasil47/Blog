@@ -5,6 +5,11 @@ body {
   padding-top: 3.5rem;
 }
 
+blockquote {
+  font-style: italic;
+  text-align: right;
+}
+
 @media (min-width: 768px) and (min-height: 576px) {
   .nav-item {
     padding-left: 1rem;
@@ -15,5 +20,9 @@ body {
   .nav-item {
     padding-left: 2rem;
   }
+}
+
+.row {
+  padding-top: 1rem;
 }
 /*# sourceMappingURL=style.css.map */
