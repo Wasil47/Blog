@@ -2,7 +2,6 @@ const express = require('express');
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
-
 const app = express();
 
 const port = 3000;
@@ -32,8 +31,8 @@ class Post {
 const createPosts = (arr)=> {
   const amount = arr.length;
   for (let i=0; i<amount; i++) {
-    const post = new Post (arr[i].title, arr[i].content, arr[i].category)
-    newPosts.push(post);
+    const post = new Post (arr[i].title, arr[i].content, arr[i].category);
+    newPosts.unshift(post);
   }
 };
 createPosts(posts);
@@ -61,7 +60,7 @@ app.get('/posts/:postId', (req,res)=>{
     postCategory: foundPost.category
   });
 });
-
+// render category post 
 app.get('/category/:categoryId', (req,res)=>{  
   const reqCatId = req.params.categoryId;
   const foundCat = newPosts.filter((e)=>{
@@ -76,6 +75,20 @@ app.get('/category/:categoryId', (req,res)=>{
     postCategory: _.capitalize(foundCat[0].category),
     linkCategory: foundCat[0].category
   });
+});
+
+//render add/new posts
+app.get('/add', (req,res)=>{
+  res.render('add');
+});
+// add new post
+app.post('/add', (req,res)=>{
+  const title = req.body.addTitle;
+  const content = req.body.postBody;
+  const category = req.body.addCategory;
+  const post = new Post (title, content, category);
+  newPosts.unshift(post);
+  res.redirect('/');
 });
 
 
