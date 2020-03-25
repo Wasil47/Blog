@@ -3,6 +3,7 @@ const _ = require('lodash');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const app = express();
+const mongoose = require('mongoose');
 
 const port = 3000;
 
@@ -13,12 +14,21 @@ app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// mongoDB config
+mongoose.connect('mongodb://localhost/blogDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+
 // few samples/test posts
 const examples = require(__dirname+'/examples.js');
 posts = examples.examplePosts();
 // end of samples
 
 const newPosts = [];
+
+const categoryList = ['programming', 'gym', 'recipes', 'other'];
 
 class Post {
   constructor (title, content, category) {
@@ -27,6 +37,23 @@ class Post {
     this.category = category;
   }
 };
+// mongoDB schema
+const postSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  category: String
+});
+// mongoDB model
+const PostDB = mongoose.model('Post', postSchema);
+
+// const testPost = new PostDB({
+//   title: 'Test DB post test title',
+//   content: 'Test DB content, content, Test DB contentTest DB contentTest DB contentTest DB contentTest DB content',
+//   category: 'gym'
+// });
+// testPost.save();
+
+
 
 const createPosts = (arr)=> {
   const amount = arr.length;
@@ -38,40 +65,66 @@ const createPosts = (arr)=> {
 createPosts(posts);
 
 // (req,res)=>{}
+let chosenDB = 'staticDB';
 
-app.get('/', (req,res)=>{
-  res.render('home', {postsArr: newPosts} );
+// generate posts from mangoDB or local (array)
+app.post('/', (req,res)=>{
+  chosenDB = req.body.changeDB;
+  res.redirect('/');
 });
+
+app.get('/', (req,res)=>{  
+  if (chosenDB == 'staticDB') {
+    res.render('home', {postsArr: newPosts, check: chosenDB} );
+  } else if (chosenDB == 'mongoDB') {
+    PostDB.find({}, (err, foundPosts)=>{
+      res.render('home', {postsArr: foundPosts, check: chosenDB} );
+    });
+  }
+});
+
 app.get('/about', (req,res)=>{
   res.render('about');
 });
 
 // render selected post 
-app.get('/posts/:postId', (req,res)=>{  
-  const reqPostId = req.params.postId;
-  const foundPost = newPosts.find((e)=>{
-    if (e.title == reqPostId) {
-      return e;
+app.get('/posts/:postTitle', (req,res)=>{  
+  const reqPostTitle = req.params.postTitle;
+  // search for post in DB then in 'newPosts' array
+  PostDB.findOne({title: reqPostTitle}, (err, foundPost)=>{
+    if (foundPost) { // generate post from DB
+      console.log('Found post in DB');    
+      res.render('post', { 
+        postTitle: foundPost.title, 
+        postContent: foundPost.content,
+        postCategory: foundPost.category
+      });
+    } else { // generate post from Array
+      console.log('Found post in Array');  
+      const foundPostArr = newPosts.find((e)=>{
+        if (e.title == reqPostTitle) {
+          return e;
+        }
+      });
+      res.render('post', {
+        postTitle: foundPostArr.title, 
+        postContent: foundPostArr.content,
+        postCategory: foundPostArr.category
+      });
     }
   });
-  res.render('post', { 
-    postTitle: foundPost.title, 
-    postContent: foundPost.content,
-    postCategory: foundPost.category
-  });
 });
+
 // render category post 
-app.get('/category/:categoryId', (req,res)=>{  
-  const reqCatId = req.params.categoryId;
+app.get('/category/:categoryName', (req,res)=>{  
+  const reqCatName = req.params.categoryName;
   const foundCat = newPosts.filter((e)=>{
-    if (e.category == reqCatId) {
+    if (e.category == reqCatName) {
       return e;
     }
   }); 
   res.render('category', { 
     catArr: foundCat,
-    // postTitle: foundCat.title, 
-    // postContent: foundCat.content,
     postCategory: _.capitalize(foundCat[0].category),
     linkCategory: foundCat[0].category
   });
@@ -86,11 +139,22 @@ app.post('/add', (req,res)=>{
   const title = req.body.addTitle;
   const content = req.body.postBody;
   const category = req.body.addCategory;
-  const post = new Post (title, content, category);
-  newPosts.unshift(post);
-  res.redirect('/');
+  const database = req.body.changeDB; // check where to save it
+  if (database == 'staticDatabase') { // save to static array
+    const post = new Post (title, content, category);
+    newPosts.unshift(post);
+    res.redirect('/');
+  } 
+  else if (database == 'mongoDatabase') { // save to mongoDB
+    const post = new PostDB({
+    title: title,
+    content: content,
+    category: category
+    });
+    post.save();
+    res.redirect('/');
+  }
 });
-
 
 app.listen(port, ()=>{
   console.log(`Server is running on port ${port}.`);  

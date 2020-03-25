@@ -21,6 +21,20 @@
   </div>
 
   <div class="container">
+    <form id="db-form" method="POST" action="/">
+      <input type="radio" name="changeDB" id="staticDB" value="staticDB"
+      <% if (check == 'staticDB') { %>
+       checked
+      <% } %>
+      >
+      <label for="staticDB">Static Posts</label>
+      <input type="radio" name="changeDB" id="mongoDB" value="mongoDB"
+      <% if (check == 'mongoDB') { %>
+        checked
+       <% } %>
+      >
+      <label for="mongoDB">mongoDB Posts</label>
+    </form>
     <h1 class="display-4">Recent articles:</h1>
     <div class="row">
       <% for(let i=0; i < postsArr.length; i++) { %>
