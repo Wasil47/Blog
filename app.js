@@ -93,14 +93,14 @@ app.get('/posts/:postTitle', (req,res)=>{
   // search for post in DB then in 'newPosts' array
   PostDB.findOne({title: reqPostTitle}, (err, foundPost)=>{
     if (foundPost) { // generate post from DB
-      console.log('Found post in DB');    
+      // console.log('Found post in DB');    
       res.render('post', { 
         postTitle: foundPost.title, 
         postContent: foundPost.content,
         postCategory: foundPost.category
       });
     } else { // generate post from Array
-      console.log('Found post in Array');  
+      // console.log('Found post in Array');  
       const foundPostArr = newPosts.find((e)=>{
         if (e.title == reqPostTitle) {
           return e;
@@ -118,16 +118,26 @@ app.get('/posts/:postTitle', (req,res)=>{
 // render category post 
 app.get('/category/:categoryName', (req,res)=>{  
   const reqCatName = req.params.categoryName;
-  const foundCat = newPosts.filter((e)=>{
-    if (e.category == reqCatName) {
-      return e;
-    }
-  }); 
-  res.render('category', { 
-    catArr: foundCat,
-    postCategory: _.capitalize(foundCat[0].category),
-    linkCategory: foundCat[0].category
-  });
+  if (chosenDB == 'staticDB') {
+    const foundCat = newPosts.filter((e)=>{ // looking for posts in static arr
+      if (e.category == reqCatName) {
+        return e;
+      }
+    }); 
+    res.render('category', { 
+      catArr: foundCat,
+      postCategory: _.capitalize(foundCat[0].category),
+      linkCategory: foundCat[0].category
+    });    
+  } else if (chosenDB == 'mongoDB') {   // looking for posts in mongoDB
+    PostDB.find({category: reqCatName}, (err, foundPosts)=>{
+      res.render('category', {
+        catArr: foundPosts,
+        postCategory: _.capitalize(foundPosts[0].category),
+        linkCategory: foundPosts[0].category
+      });
+    });
+  }
 });
 
 //render add/new posts
