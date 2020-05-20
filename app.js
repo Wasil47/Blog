@@ -5,7 +5,6 @@ const ejs = require('ejs');
 const app = express();
 const mongoose = require('mongoose');
 
-const port = 3000;
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -173,6 +172,11 @@ app.post('/add', (req,res)=>{
     res.redirect('/');
   }
 });
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
 
 app.listen(port, ()=>{
   console.log(`Server is running on port ${port}.`);  
