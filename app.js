@@ -14,11 +14,19 @@ app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+// LocalHost
+
 // mongoDB config
-mongoose.connect('mongodb://localhost/blogDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect('mongodb://localhost/blogDB', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+
+// My testing server
+mongoose.connect("mongodb+srv://readOnlyUser:veryHardToCrack@cluster0-iktye.mongodb.net/blogDB", {
+  useNewUrlParser: true, useUnifiedTopology: true
+}); // read only permission
 
 
 // few samples/test posts
