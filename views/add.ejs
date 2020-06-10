@@ -1,7 +1,6 @@
-<%- include('partials/header') -%> 
+<%- include('partials/header') -%>
 
 <main role="main">
-
   <div class="jumbotron">
     <div class="container">
       <h1 class="display-3">New post</h1>
@@ -9,40 +8,80 @@
 
       <form class="add-post" method="POST" action="/add">
         <div class="form-group">
-          <input type="radio" name="changeDB" id="staticDatabase" value="staticDatabase" checked>
-          <label for="staticDatabase">Add to static page</label>
-          <input type="radio" name="changeDB" id="mongoDatabase" value="mongoDatabase">
-          <label for="mongoDatabase">Add to mongoDB //requires permission</label>
-
+          <div>
+            <input
+              type="radio"
+              name="changeDB"
+              id="staticDatabase"
+              value="staticDatabase"
+              checked
+            />
+            <label for="staticDatabase">Add to static page</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="changeDB"
+              id="mongoDatabase"
+              value="mongoDatabase"
+            />
+            <label for="mongoDatabase"
+              >Add to mongoDB //requires permission</label
+            >
+          </div>
           <p>Title</p>
-          <input name="addTitle" type="text" class="form-text" autocomplete="off">
+          <input
+            name="addTitle"
+            type="text"
+            class="form-text"
+            autocomplete="off"
+          />
           <p>Post</p>
-          <textarea name="postBody" type="text" class="form-text" rows="4"></textarea>
+          <textarea
+            name="postBody"
+            type="text"
+            class="form-text"
+            rows="4"
+          ></textarea>
           <p>Category</p>
           <div>
-            <input type="radio" name="addCategory" id="programming" value="programming" checked>
+            <input
+              type="radio"
+              name="addCategory"
+              id="programming"
+              value="programming"
+              checked
+            />
             <label for="programming">Programming</label>
           </div>
           <div>
-            <input type="radio" name="addCategory" id="gym" value="gym">
+            <input type="radio" name="addCategory" id="gym" value="gym" />
             <label for="gym">Gym</label>
           </div>
           <div>
-            <input type="radio" name="addCategory" id="recipes" value="recipes">
+            <input
+              type="radio"
+              name="addCategory"
+              id="recipes"
+              value="recipes"
+            />
             <label for="recipes">Recipes</label>
           </div>
           <div>
-            <input type="radio" name="addCategory" id="other" value="other">
+            <input type="radio" name="addCategory" id="other" value="other" />
             <label for="other">Other</label>
           </div>
         </div>
         <button name="add" type="submit" class="btn btn-dark">Add</button>
       </form>
 
-      <p><a class="btn btn-primary btn-lg" href="/" role="button">Back to home page &raquo;</a></p>
+      <p>
+        <a class="btn btn-primary btn-lg" href="/" role="button"
+          >Back to home page &raquo;</a
+        >
+      </p>
     </div>
   </div>
-
 </main>
 
-<%- include('partials/footer') -%> 
+<%- include('partials/footer') -%>

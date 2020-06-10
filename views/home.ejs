@@ -4,7 +4,7 @@
 
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Welcome to myBlog!</h1>
+      <h1 class="display-4">Welcome to myBlog!</h1>
       <p>My name is XYZ and this is myBLog about blog's stuff.</p>
       <h4>Technology used:</h4>
       <ul>
@@ -22,18 +22,22 @@
 
   <div class="container">
     <form id="db-form" method="POST" action="/">
-      <input type="radio" name="changeDB" id="staticDB" value="staticDB"
-      <% if (check == 'staticDB') { %>
-       checked
-      <% } %>
-      >
-      <label for="staticDB">Static Posts</label>
-      <input type="radio" name="changeDB" id="mongoDB" value="mongoDB"
-      <% if (check == 'mongoDB') { %>
+      <div>
+        <input type="radio" name="changeDB" id="staticDB" value="staticDB"
+        <% if (check == 'staticDB') { %>
         checked
-       <% } %>
-      >
-      <label for="mongoDB">mongoDB Posts //requires mongoDB :-)</label>
+        <% } %>
+        >
+        <label for="staticDB">Static Posts</label>
+      </div>
+      <div>
+        <input type="radio" name="changeDB" id="mongoDB" value="mongoDB"
+        <% if (check == 'mongoDB') { %>
+          checked
+        <% } %>
+        >
+        <label for="mongoDB">mongoDB Posts</label>
+      </div>
     </form>
     <h1 class="display-4">Recent articles:</h1>
     <div class="row">
